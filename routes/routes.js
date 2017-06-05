@@ -6,10 +6,10 @@ var path = require('path');
 var app = express();
 
 var api = express.Router();
-
 app.use('/api/v1', api);
-app.use(cors());
-app.use(bodyparser.json());
+
+api.use(cors());
+api.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports.app = app;

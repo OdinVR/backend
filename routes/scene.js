@@ -29,7 +29,19 @@ api.get('/newscene',function(req,res) {
     });
 });
 
-api.post('/scene',function(req,res) {
+api.post('/scene/:scene_id',function(req,res) {
     var id = req.params.scene_id;
-    Scene.findOneAndUpdate({_id: id},req.body);
+    console.log(req.body);
+    Scene.findOneAndUpdate({_id: id},req.body,{new: true}, function(err,scene) {
+        if(err) return handleError(err);
+        res.json(scene);
+    });
+});
+
+api.delete('/scene/:scene_id',function(req,res) {
+    var id = req.params.scene_id;
+    Scene.findOneAndRemove({_id: id},function(err,scene,result) {
+        if(err) return handleError(err);
+        res.json(scene);
+    })
 });

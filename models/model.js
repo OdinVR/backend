@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../db');
 
 const ModelSchema = mongoose.Schema({
     _id: String,
@@ -10,7 +10,7 @@ const ModelSchema = mongoose.Schema({
 	scale: Number,
 	xrotation: Number,
 	yrotation: Number,
-	zrotation, Number,
+	zrotation: Number,
 	spin: Boolean,
 	spin_axis: String
 });

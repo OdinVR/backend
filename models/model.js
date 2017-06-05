@@ -15,4 +15,4 @@ const ModelSchema = mongoose.Schema({
 	spin_axis: String
 });
 
-module.exports.Model = mongoose.model('Model', ModelSchema);
+module.exports = mongoose.model('Model', ModelSchema);

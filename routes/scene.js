@@ -46,5 +46,6 @@ api.delete('/scene/:scene_id',function(req,res) {
         const envId = scene.environment;
         Environment.findOneAndRemove({_id: envId});
         res.json(scene);
+        //TODO: Delete all the models
     })
 });

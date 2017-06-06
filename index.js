@@ -5,10 +5,6 @@
 */
 
 
-multer = require('multer'),
-unzip = require('unzip'),
-s3fs = require('s3fs'),
+require('./routes/routes.js');
 
-routes = require('./routes/routes.js'),
-
-db = require('./db.js');
+require('./db.js');

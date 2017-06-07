@@ -1,7 +1,6 @@
 const mongoose = require('../db');
 
 const ModelSchema = mongoose.Schema({
-    _id: String,
 	name: String,
 	url: String,
 	xposition: Number,

@@ -41,6 +41,11 @@ function extractModelTempAndUpload(file,callback) {
   stream.on('finish', function () { 
     console.log("finished")
     setTimeout(function() {
+      if (!fs.existsSync(file.path + "/model.dae")) {
+        callback(null,'ZIP contents invalid');
+        fs.remove(file.path);
+        return
+      }
       console.log(file.path)
       var params = {
         localDir: '/Users/Andrew/Documents/Projects/BoilermakeVR/backend/' + file.path,
@@ -68,7 +73,7 @@ function extractModelTempAndUpload(file,callback) {
     },500);
   });
   stream.on('error', function() {
-    callback(null,'Invalid model');
+    callback(null,'Invalid model: not a ZIP file');
   });
   
 }

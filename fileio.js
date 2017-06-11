@@ -34,6 +34,21 @@ var options = {
 };
 var client = s3.createClient(options);
 
+var skyboxUpload = multer({storage: multerS3({
+    s3: s3,
+    bucket: 'odinvr',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      var newFileName = Date.now() + "-" + file.originalname;
+      var fullPath = 'public/skyboxes/'+ newFileName;
+      cb(null, fullPath);
+    }
+  })
+});
+
+
 var modelUpload = multer({dest: 'temp/models', limits: { fileSize: 25000000 }});
 
 function extractModelTempAndUpload(file,callback) {
@@ -80,3 +95,4 @@ function extractModelTempAndUpload(file,callback) {
 
 module.exports.extractModelTempAndUpload = extractModelTempAndUpload;
 module.exports.modelUpload = modelUpload;
+module.exports.skyboxUpload = skyboxUpload;

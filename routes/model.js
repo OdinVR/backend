@@ -35,10 +35,28 @@ app.post('/api/v1/scene/:scene_id/model/file',upload.any(), function(req,res) {
                 spin_axis: 0,
             },function(err1,model) {
                 if(err1) return handleError(err1);
+                Scene.findOne({_id: id}, 'models', function(err2,scene) {
+                    if(err2) return res.json({error: err2});
+                    scene.models.push(model.id);
+                    scene.save(function (err3) {
+                        if (err3) return handleError(err);
+                    })
+                });
                 res.json(model);
             })
         });
         /*;*/
     }
     
+});
+
+api.put('scene/:scene_id/model/:model_id', function(req,res) {
+    const id = req.params.scene_id;
+    const modelId = req.params.model_id;
+    Scene.findOne({_id: id}, 'models', function(err,scene) {
+        Model.findOneAndUpdate({_id: modelId},req.body,{new: true}, function(err1,model) {
+            if(err1) return handleError(err1);
+            res.json(model);
+        });
+    });
 });

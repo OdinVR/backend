@@ -87,12 +87,37 @@ function extractModelTempAndUpload(file,callback) {
       });
     },500);
   });
-  stream.on('error', function() {
-    callback(null,'Invalid model: not a ZIP file');
+  stream.on('error', function(e) {
+    console.log("error",e);
+    callback(null,'Invalid model: not a valid model ZIP file');
+  });  
+}
+
+function deleteModelFile(model,callback) {
+  if(!model.filename || model.filename.length == 0) {
+    return;
+  }
+  var params = {
+    s3Params: {
+      Bucket: "odinvr",
+      Prefix: "public/models/" + model.filename + "/",
+    },
+  };
+  var deletion = client.deleteDir(params);
+  deletion.on('error', function(err) {
+    console.error("unable to sync:", err.stack);
+    callback(null,err);
   });
-  
+  deletion.on('progress', function() {
+    console.log("progress", uploader.progressAmount, uploader.progressTotal);
+  });
+  deletion.on('end', function() {
+    console.log("done deleting");
+    callback(model.filename,null);
+  });
 }
 
 module.exports.extractModelTempAndUpload = extractModelTempAndUpload;
 module.exports.modelUpload = modelUpload;
 module.exports.skyboxUpload = skyboxUpload;
+module.exports.deleteModelFile = deleteModelFile;

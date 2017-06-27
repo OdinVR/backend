@@ -24,6 +24,7 @@ app.post('/api/v1/scene/:scene_id/model/file',upload.any(), function(req,res) {
             Model.create({
                 name: req.files[0].originalname.replace('.zip',''),
                 url: url,
+                filename: req.files[0].filename,
                 xposition: 0,
                 yposition: 0,
                 zposition: 0,
@@ -50,12 +51,28 @@ app.post('/api/v1/scene/:scene_id/model/file',upload.any(), function(req,res) {
     
 });
 
-api.put('scene/:scene_id/model/:model_id', function(req,res) {
+app.put('/api/v1/scene/:scene_id/model/:model_id', function(req,res) {
     const id = req.params.scene_id;
     const modelId = req.params.model_id;
     Scene.findOne({_id: id}, 'models', function(err,scene) {
         Model.findOneAndUpdate({_id: modelId},req.body,{new: true}, function(err1,model) {
             if(err1) return handleError(err1);
+            res.json(model);
+        });
+    });
+});
+
+app.delete('/api/v1/scene/:scene_id/model/:model_id', function(req,res) {
+    console.log("delete")
+    const id = req.params.scene_id;
+    const modelId = req.params.model_id;
+    Scene.findOne({_id: id}, 'models', function(err,model) {
+        Model.findOneAndRemove({_id: modelId});
+        fileio.deleteModelFile(model.filename,function(path,err1){
+            if(err1) {
+                res.json({error: err1});
+                return
+            }
             res.json(model);
         });
     });

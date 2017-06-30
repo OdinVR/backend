@@ -11,7 +11,9 @@ const ModelSchema = mongoose.Schema({
 	yrotation: Number,
 	zrotation: Number,
 	spin: Boolean,
-	spin_axis: String
+	spin_axis: String,
+	filename: String,
+	scene: { type: mongoose.Schema.Types.ObjectId, ref: 'Scene'},
 });
 
 module.exports = mongoose.model('Model', ModelSchema);

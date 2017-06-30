@@ -7,14 +7,6 @@ const multerS3 = require('multer-s3')
 
 var fs = require('fs-extra');
 
-const secrets = require('./secrets')
-
-/*var s3 = new aws.S3( {
-    endpoint: 's3.us-east-2.amazonaws.com',
-    signatureVersion: 'v4',
-    region: 'us-east-2'
-} );*/
-
 var s3 = require('s3')
 
 var AWSs3 = new AWS.S3( {
@@ -30,7 +22,6 @@ var options = {
   s3RetryDelay: 2000, // this is the default
   multipartUploadThreshold: 20971520, // this is the default (20 MB)
   multipartUploadSize: 15728640, // this is the default (15 MB)
-  // more options available. See API docs below.
 };
 var client = s3.createClient(options);
 

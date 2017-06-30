@@ -8,9 +8,9 @@ const fileio = require('../fileio');
 
 const upload = fileio.modelUpload;
 
-const app = routes.app;
+//const app = routes.app;
 
-app.post('/api/v1/scene/:scene_id/model/file',upload.any(), function(req,res) {
+api.post('/scene/:scene_id/model/file',upload.any(), function(req,res) {
     const id = req.params.scene_id;
     console.log("req file");
     if(req.files != undefined) {
@@ -51,7 +51,7 @@ app.post('/api/v1/scene/:scene_id/model/file',upload.any(), function(req,res) {
     
 });
 
-app.put('/api/v1/scene/:scene_id/model/:model_id', function(req,res) {
+api.put('/scene/:scene_id/model/:model_id', function(req,res) {
     const id = req.params.scene_id;
     const modelId = req.params.model_id;
     Scene.findOne({_id: id}, 'models', function(err,scene) {
@@ -62,13 +62,18 @@ app.put('/api/v1/scene/:scene_id/model/:model_id', function(req,res) {
     });
 });
 
-app.delete('/api/v1/scene/:scene_id/model/:model_id', function(req,res) {
+api.delete('/scene/:scene_id/model/:model_id', function(req,res) {
     console.log("delete")
     const id = req.params.scene_id;
     const modelId = req.params.model_id;
-    Scene.findOne({_id: id}, 'models', function(err,model) {
+    Scene.findOne({_id: id}, 'models', function(err,scene) {
+        if(err) {
+            res.json({error: err});
+            return
+        }
+        const modelFilename = model.filename;
         Model.findOneAndRemove({_id: modelId});
-        fileio.deleteModelFile(model.filename,function(path,err1){
+        fileio.deleteModelFile(modelFilename,function(path,err1){
             if(err1) {
                 res.json({error: err1});
                 return

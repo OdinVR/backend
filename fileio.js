@@ -85,6 +85,12 @@ function extractModelTempAndUpload(file,callback) {
 }
 
 function deleteModelFile(model,callback) {
+
+  if(!model.filename || model.filename.length == 0) {
+    callback({error: "Invalid model file name."})
+    return
+  }
+
   var params = {
     Bucket: 'odinvr',
     Prefix: 'public/models/' + model.filename + '/'
@@ -92,8 +98,6 @@ function deleteModelFile(model,callback) {
 
   AWSs3.listObjects(params, function(err, data) {
     if (err) return callback({error: err});
-
-    console.log("data",data);
 
     if (data.Contents.length == 0) callback({error: "No content to delete"});
 

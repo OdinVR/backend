@@ -8,7 +8,28 @@ const fileio = require('../fileio');
 
 const upload = fileio.modelUpload;
 
-//const app = routes.app;
+api.get('/scene/:scene_id/models',function(req,res) {
+    const id = req.params.scene_id;
+    Model.find({scene: id},function(err,models) {
+        if(err) {
+            res.json({error: err})
+            return
+        }
+        res.json(models);
+    });
+});
+
+api.get('/scene/:scene_id/model/:model_id',function(req,res) {
+    const id = req.params.scene_id;
+    const modelId = req.params.model_id;
+    Model.findOne({_id: modelId},function(err,model) {
+        if(err) {
+            res.json({error: err})
+            return
+        }
+        res.json(model);
+    });
+});
 
 api.post('/scene/:scene_id/model/file',upload.any(), function(req,res) {
     const id = req.params.scene_id;

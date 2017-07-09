@@ -10,7 +10,7 @@ app.use('/api/v1', api);
 
 api.use(cors());
 api.use(bodyparser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 module.exports.app = app;
 module.exports.api = api;

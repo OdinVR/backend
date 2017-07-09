@@ -34,6 +34,7 @@ api.post('/scene/:scene_id/model/file',upload.any(), function(req,res) {
                 zrotation: 0,
                 spin: false,
                 spin_axis: 0,
+                scene: id,
             },function(err1,model) {
                 if(err1) return handleError(err1);
                 Scene.findOne({_id: id}, 'models', function(err2,scene) {
@@ -63,22 +64,9 @@ api.put('/scene/:scene_id/model/:model_id', function(req,res) {
 });
 
 api.delete('/scene/:scene_id/model/:model_id', function(req,res) {
-    console.log("delete")
     const id = req.params.scene_id;
     const modelId = req.params.model_id;
-    Scene.findOne({_id: id}, 'models', function(err,scene) {
-        if(err) {
-            res.json({error: err});
-            return
-        }
-        const modelFilename = model.filename;
-        Model.findOneAndRemove({_id: modelId});
-        fileio.deleteModelFile(modelFilename,function(path,err1){
-            if(err1) {
-                res.json({error: err1});
-                return
-            }
-            res.json(model);
-        });
+    Model.deleteModel(modelId,function(json) {
+        res.json(json);
     });
 });

@@ -7,7 +7,6 @@ const EnvironmentSchema = mongoose.Schema({
 	skybox_name: String, // ^
 	skybox_position: Number,
 	camera_height: Number,
-	scene: { type: mongoose.Schema.Types.ObjectId, ref: 'Scene'},
 });
 
 module.exports = mongoose.model('Environment', EnvironmentSchema);

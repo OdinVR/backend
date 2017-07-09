@@ -85,26 +85,29 @@ function extractModelTempAndUpload(file,callback) {
 }
 
 function deleteModelFile(model,callback) {
-  if(!model.filename || model.filename.length == 0) {
-    return;
-  }
   var params = {
-    s3Params: {
-      Bucket: "odinvr",
-      Prefix: "public/models/" + model.filename + "/",
-    },
+    Bucket: 'odinvr',
+    Prefix: 'public/models/' + model.filename + '/'
   };
-  var deletion = client.deleteDir(params);
-  deletion.on('error', function(err) {
-    console.error("unable to sync:", err.stack);
-    callback(null,err);
-  });
-  deletion.on('progress', function() {
-    console.log("progress", uploader.progressAmount, uploader.progressTotal);
-  });
-  deletion.on('end', function() {
-    console.log("done deleting");
-    callback(model.filename,null);
+
+  AWSs3.listObjects(params, function(err, data) {
+    if (err) return callback({error: err});
+
+    console.log("data",data);
+
+    if (data.Contents.length == 0) callback({error: "No content to delete"});
+
+    params = {Bucket: 'odinvr'};
+    params.Delete = {Objects:[]};
+
+    data.Contents.forEach(function(content) {
+      params.Delete.Objects.push({Key: content.Key});
+    });
+
+    AWSs3.deleteObjects(params, function(err, data) {
+      if (err) return callback({error: err});
+      callback(model);
+    });
   });
 }
 

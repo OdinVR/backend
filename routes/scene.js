@@ -46,9 +46,13 @@ api.delete('/scene/:scene_id',function(req,res) {
         const envId = scene.environment;
         Environment.findOneAndRemove({_id: envId});
         res.json(scene);
-        scene.models.forEach(function(modelId) {
-            Model.findOneAndRemove({_id: modelId});
+        Model.find({scene: id},function(err1,models) {
+            if(err1) {
+                res.json({error: err1})
+                return
+            }
+            console.log("models",models);
+            // TODO: Delete all of the models from a scene 
         });
-        //TODO: Delete all the models
     })
 });

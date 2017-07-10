@@ -5,6 +5,10 @@ const S3FS = require('s3fs')
 const AWS = require('aws-sdk')
 const multerS3 = require('multer-s3')
 
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
+console.log("app dir",appDir);
+
 var fs = require('fs-extra');
 
 var s3 = require('s3')
@@ -54,7 +58,7 @@ function extractModelTempAndUpload(file,callback) {
       }
       console.log(file.path)
       var params = {
-        localDir: '/Users/Andrew/Documents/Projects/BoilermakeVR/backend/' + file.path,
+        localDir: appDir + '/' + file.path,
         deleteRemoved: false, // default false, whether to remove s3 objects
                             // that have no corresponding local file.
         s3Params: {

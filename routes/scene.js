@@ -48,7 +48,13 @@ api.delete('/scene/:scene_id',function(req,res) {
     Scene.findOneAndRemove({_id: id},function(err,scene,result) {
         if(err) return handleError(err);
         const envId = scene.environment;
-        Environment.findOneAndRemove({_id: envId});
+        Environment.findOneAndRemove({_id: envId},function(err1,env) {
+            if(err1) {
+                console.log("Error deleting environment",err1);
+                return
+            }
+            console.log("deleted env",env);
+        });
         res.json(scene);
         Model.find({scene: id},function(err1,models) {
             if(err1) {
@@ -58,7 +64,7 @@ api.delete('/scene/:scene_id',function(req,res) {
             console.log("models",models);
             models.forEach(function(model) {
                 Model.deleteModel(model.id,function(json) {
-                    console.log("DELETE MODEL RESULT",json);
+                    console.log("DELETE MODEL RESULT",json)
                 })
             })
             console.log("models",models);

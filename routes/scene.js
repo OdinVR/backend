@@ -3,6 +3,7 @@ const routes = require('./routes');
 const api = routes.api;
 const Scene = require('../models/scene');
 const Environment = require('../models/environment');
+const randomString = require('randomstring');
 
 api.get('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
@@ -22,7 +23,8 @@ api.get('/newscene',function(req,res) {
     environment.save(function(err) {
         Scene.create({
             name: 'New Scene',
-            environment: environment.id
+            environment: environment.id,
+            accessCode: randomString.generate(7),
         },function(err,scene) {
             if(err) return handleError(err);
             res.json(scene);

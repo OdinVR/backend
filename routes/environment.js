@@ -4,6 +4,9 @@ const api = routes.api;
 const Scene = require('../models/scene');
 const Environment = require('../models/environment');
 
+const fileio = require('../fileio');
+const upload = fileio.skyboxUpload;
+
 api.put('/scene/:scene_id/environment',function(req,res) {
     const id = req.params.scene_id;
     Scene.findOne({_id: id}, 'environment', function(err,scene) {
@@ -13,4 +16,10 @@ api.put('/scene/:scene_id/environment',function(req,res) {
             res.json(env);
         });
     });
+});
+
+api.post('/scene/:scene_id/skybox',upload.any(),function(req,res) {
+    if(req.files) {
+        console.log("skybox upload",req.files[0]);
+    }
 });

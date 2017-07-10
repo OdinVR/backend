@@ -17,10 +17,10 @@ api.get('/scene/:scene_id',function(req,res) {
 
 api.get('/newscene',function(req,res) {
     const environment = new Environment({
-        skybox_type: "grid",
-        skybox_size: 50,
-        skybox_position: 25,
-        canera_height: 1.5
+        sky_type: "grid",
+        sky_size: 50,
+        sky_position: 25,
+        camera_height: 1.5
     });
     environment.save(function(err) {
         Scene.create({

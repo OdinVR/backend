@@ -12,7 +12,7 @@ var s3 = require('s3')
 var AWSs3 = new AWS.S3( {
     endpoint: 's3.us-east-2.amazonaws.com',
     signatureVersion: 'v4',
-    region: 's3.us-east-2'
+    region: 'us-east-2'
 } );
 
 var options = {

@@ -3,7 +3,9 @@ const routes = require('./routes');
 const api = routes.api;
 const Scene = require('../models/scene');
 const Environment = require('../models/environment');
+const Model = require('../models/model');
 const randomString = require('randomstring');
+
 
 api.get('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
@@ -53,6 +55,12 @@ api.delete('/scene/:scene_id',function(req,res) {
                 res.json({error: err1})
                 return
             }
+            console.log("models",models);
+            models.forEach(function(model) {
+                Model.deleteModel(model.id,function(json) {
+                    console.log("DELETE MODEL RESULT",json);
+                })
+            })
             console.log("models",models);
             // TODO: Delete all of the models from a scene 
         });

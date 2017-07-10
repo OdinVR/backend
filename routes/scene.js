@@ -24,7 +24,7 @@ api.get('/newscene',function(req,res) {
         Scene.create({
             name: 'New Scene',
             environment: environment.id,
-            accessCode: randomString.generate(7),
+            accessCode: randomString.generate(7).toUpperCase(),
         },function(err,scene) {
             if(err) return handleError(err);
             res.json(scene);

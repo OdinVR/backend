@@ -5,7 +5,7 @@ const Environment = require('../models/environment.js');
 const SceneSchema = new mongoose.Schema({
 	name: String,
 	models: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model'}],
-	environment: { type: mongoose.Schema.Types.ObjectId, ref: 'Environment'},
+	environmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Environment'},
 	accessCode: String,
 });
 

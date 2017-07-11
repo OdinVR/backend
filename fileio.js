@@ -119,7 +119,21 @@ function deleteModelFile(model,callback) {
   });
 }
 
+function deleteSkysphere(key,callback) {
+  var params = {
+    Bucket: 'odinvr',
+    Prefix: 'public/skyspheres/',
+  };
+  params = {Bucket: 'odinvr'};
+  params.Delete = {Objects:[{Key: key}]};
+  AWSs3.deleteObjects(params, function(err, data) {
+    if (err) return callback({error: err});
+    callback(data);
+  });
+}
+
 module.exports.extractModelTempAndUpload = extractModelTempAndUpload;
 module.exports.modelUpload = modelUpload;
 module.exports.skysphereUpload = skysphereUpload;
 module.exports.deleteModelFile = deleteModelFile;
+module.exports.deleteSkysphere = deleteSkysphere;

@@ -9,7 +9,7 @@ const upload = fileio.skysphereUpload;
 
 api.get('/scene/:scene_id/environment',function(req,res) {
     const id = req.params.scene_id;
-    Scene.findOne({_id: id}, 'environment', function(err,scene) {
+    Scene.findOne({_id: id}, 'environmentId', function(err,scene) {
         if(routes.handleErrors(err,scene,'Scene',res)) return;
         const envId = scene.environmentId;
         Environment.findOne({_id: envId}, function(err1,env) {

@@ -1,7 +1,7 @@
 var secrets = require('./secrets');
 
 mongoose = require('mongoose'),
-mongoose.connect(secrets.mongo_url);
+mongoose.connect(secrets.mongo_url,{useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 console.log("db.js");

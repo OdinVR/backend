@@ -49,6 +49,9 @@ api.delete('/scene/:scene_id',function(req,res) {
         if(routes.handleErrors(err,scene,'Scene',res)) return;
         const envId = scene.environmentId;
         Environment.findOneAndRemove({_id: envId},function(err1,env) {
+            Environment.removeSkysphere(env,function(removeData) {
+                console.log("remove skysphere ",removeData);
+            });
             if(err1) {
                 console.log("Error deleting environment",err1);
                 return

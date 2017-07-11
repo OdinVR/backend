@@ -45,3 +45,27 @@ api.post('/scene/:scene_id/skysphere',upload.any(),function(req,res) {
         });
     }
 });
+
+api.delete('/scene/:scene_id/skysphere',function(req,res){
+    const id = req.params.scene_id;
+    Scene.findOne({_id: id}, 'environment', function(err,scene) {
+        if(err) {
+            res.json({error: err});
+            return
+        }
+        const envId = scene.environment;
+        Environment.findOneAndUpdate({_id: envId},{sky_type: 'grid', skysphere_file: '', skysphere_name: ''},{new: false}, function(err1,env) {
+                if(err1) return handleError(err1);
+                Environment.removeSkysphere(env,function(removeData){
+                    console.log("remove old skysphere: ",removeData);
+                });
+                Environment.findOne({_id: envId},function(err2,env1) {
+                    if(err2) {
+                        res.json({error: err2});
+                        return
+                    }
+                    res.json(env1);
+                });
+            });
+    });
+});

@@ -33,3 +33,17 @@ app.listen(port, () => {
     });
     console.log("Running on port " + port);
 });
+
+function handleErrors(err,obj,name,res) {
+    if(err) {
+        res.json({error: err});
+        return true
+    }
+    if(!obj) {
+        res.json({error: name + ' not found'});
+        return true
+    }
+    return false
+}
+
+exports.handleErrors = handleErrors;

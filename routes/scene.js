@@ -6,11 +6,10 @@ const Environment = require('../models/environment');
 const Model = require('../models/model');
 const randomString = require('randomstring');
 
-
 api.get('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
     Scene.findById(id, function (err, scene) {
-        if (err) return handleError(err);
+        if(routes.handleErrors(err,scene,'Scene',res)) return;
         res.json(scene);
     });
 });
@@ -39,7 +38,7 @@ api.put('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
     console.log(req.body);
     Scene.findOneAndUpdate({_id: id},req.body,{new: true}, function(err,scene) {
-        if(err) return handleError(err);
+        if(routes.handleErrors(err,scene,'Scene',res)) return;
         res.json(scene);
     });
 });
@@ -47,7 +46,7 @@ api.put('/scene/:scene_id',function(req,res) {
 api.delete('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
     Scene.findOneAndRemove({_id: id},function(err,scene,result) {
-        if(err) return handleError(err);
+        if(routes.handleErrors(err,scene,'Scene',res)) return;
         const envId = scene.environmentId;
         Environment.findOneAndRemove({_id: envId},function(err1,env) {
             if(err1) {

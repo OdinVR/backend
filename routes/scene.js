@@ -48,7 +48,7 @@ api.delete('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
     Scene.findOneAndRemove({_id: id},function(err,scene,result) {
         if(err) return handleError(err);
-        const envId = scene.environment;
+        const envId = scene.environmentId;
         Environment.findOneAndRemove({_id: envId},function(err1,env) {
             if(err1) {
                 console.log("Error deleting environment",err1);

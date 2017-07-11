@@ -25,7 +25,8 @@ api.get('/newscene',function(req,res) {
     environment.save(function(err) {
         Scene.create({
             name: 'New Scene',
-            environment: environment.id,
+            environmentId: environment.id,
+            environment: null,
             accessCode: randomString.generate(7).toUpperCase(),
         },function(err,scene) {
             if(err) return handleError(err);

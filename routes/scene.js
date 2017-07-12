@@ -16,9 +16,9 @@ api.get('/scene/:scene_id',function(req,res) {
 
 api.get('/newscene',function(req,res) {
     const environment = new Environment({
-        sky_type: "grid",
-        sky_size: 50,
-        sky_position: 25,
+        skybox_type: "grid",
+        skybox_size: 50,
+        skybox_position: 25,
         camera_height: 1.5
     });
     environment.save(function(err) {
@@ -68,7 +68,7 @@ api.delete('/scene/:scene_id',function(req,res) {
             models.forEach(function(model) {
                 Model.deleteModel(model.id,function(json) {
                     console.log("DELETE MODEL RESULT",json)
-                })
+                });
             })
             console.log("models",models);
             // TODO: Delete all of the models from a scene 

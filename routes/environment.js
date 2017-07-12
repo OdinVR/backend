@@ -34,7 +34,7 @@ api.put('/scene/:scene_id/environment',function(req,res) {
     });
 });
 
-api.post('/scene/:scene_id/skysphere',upload.any(),function(req,res) {
+api.post('/scene/:scene_id/skybox',upload.any(),function(req,res) {
     const id = req.params.scene_id;
     if(req.files) {
         console.log("skysphere upload",req.files[0]);
@@ -42,7 +42,7 @@ api.post('/scene/:scene_id/skysphere',upload.any(),function(req,res) {
             if(routes.handleErrors(err,scene,'Scene',res)) return;
             console.log("scene",scene);
             const envId = scene.environmentId;
-            Environment.findOneAndUpdate({_id: envId},{sky_type: 'custom', skysphere_file: req.files[0].location, skysphere_name: req.files[0].originalname},{new: false}, function(err1,env) {
+            Environment.findOneAndUpdate({_id: envId},{skybox_type: 'custom', skybox_file: req.files[0].location, skybox_name: req.files[0].originalname},{new: false}, function(err1,env) {
                 if(err1) return handleError(err1);
                 Environment.removeSkysphere(env,function(removeData){
                     console.log("remove old skysphere: ",removeData);
@@ -59,12 +59,12 @@ api.post('/scene/:scene_id/skysphere',upload.any(),function(req,res) {
     }
 });
 
-api.delete('/scene/:scene_id/skysphere',function(req,res){
+api.delete('/scene/:scene_id/skybox',function(req,res){
     const id = req.params.scene_id;
     Scene.findOne({_id: id}, 'environmentId', function(err,scene) {
         if(routes.handleErrors(err,scene,'Scene',res)) return;
         const envId = scene.environmentId;
-        Environment.findOneAndUpdate({_id: envId},{sky_type: 'grid', skysphere_file: '', skysphere_name: ''},{new: false}, function(err1,env) {
+        Environment.findOneAndUpdate({_id: envId},{skybox_type: 'grid', skybox_file: '', skybox_name: ''},{new: false}, function(err1,env) {
                 if(err1) return handleError(err1);
                 Environment.removeSkysphere(env,function(removeData){
                     console.log("remove old skysphere: ",removeData);

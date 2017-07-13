@@ -9,7 +9,6 @@ startSockets();
 
 function startSockets() {
     console.log("start socket")
-    io.set('origins', 'localhost:*');
     io.on('connection', function(socket) {
         console.log("connected");
     });

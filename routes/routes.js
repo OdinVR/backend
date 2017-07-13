@@ -7,6 +7,7 @@ var app = express();
 
 var api = express.Router();
 app.use('/api/v1', api);
+app.use(cors());
 
 api.use(cors());
 api.use(bodyparser.json());
@@ -25,9 +26,7 @@ app.get('/', (req, res) => {
 
 const port = 6606;
 
-const server = require('http').Server(app);
-
-server.listen(port, () => {
+const server = app.listen(port, () => {
     figlet.text('OdinVR', {
         font: 'Graffiti'
     }, function(err, data) {
@@ -49,4 +48,4 @@ function handleErrors(err,obj,name,res) {
 }
 
 module.exports.handleErrors = handleErrors;
-
+module.exports.server = server;

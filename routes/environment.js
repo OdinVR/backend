@@ -1,4 +1,4 @@
-var routes = require('./routes');
+const routes = require('./routes');
 
 const api = routes.api;
 const Scene = require('../models/scene');

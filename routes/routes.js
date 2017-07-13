@@ -25,7 +25,9 @@ app.get('/', (req, res) => {
 
 const port = 6606;
 
-app.listen(port, () => {
+const server = require('http').Server(app);
+
+server.listen(port, () => {
     figlet.text('OdinVR', {
         font: 'Graffiti'
     }, function(err, data) {
@@ -46,4 +48,5 @@ function handleErrors(err,obj,name,res) {
     return false
 }
 
-exports.handleErrors = handleErrors;
+module.exports.handleErrors = handleErrors;
+

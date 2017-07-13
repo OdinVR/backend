@@ -8,3 +8,5 @@
 require('./routes/routes.js');
 
 require('./db.js');
+
+require('./sockets');

@@ -9,4 +9,22 @@ const SceneSchema = new mongoose.Schema({
 	accessCode: String,
 });
 
-module.exports = mongoose.model('Scene', SceneSchema);
+const Scene = mongoose.model('Scene', SceneSchema);
+
+function findSceneFromAccessCode(code,callback) {
+	Scene.findOne({accessCode: code},function(err,scene) {
+		if(err) {
+			callback({error: err});
+			return
+		}
+		if(!scene) {
+			callback({error: 'Scene does not exist. Please try a different code.'});
+			return
+		}
+		callback(scene);
+	});
+	
+}
+
+module.exports = Scene;
+module.exports.findSceneFromAccessCode = findSceneFromAccessCode;

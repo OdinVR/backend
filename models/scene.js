@@ -26,5 +26,27 @@ function findSceneFromAccessCode(code,callback) {
 	
 }
 
+function getFullScene(scene,callback) {
+	const envId = scene.environmentId;
+    Environment.findOne({_id: envId}, function(err,env) {
+		let fullScene = JSON.parse(JSON.stringify(scene));
+		if(err) {
+			callback({error: err});
+			return
+		}
+		fullScene.environment = env;
+		console.log(fullScene);
+		Model.find({scene: scene._id},function(err1,models) {
+			if(err1) {
+				callback({error: err1});
+				return
+			}
+			fullScene.models = models;
+			callback(fullScene);
+		});
+	});
+}
+
 module.exports = Scene;
 module.exports.findSceneFromAccessCode = findSceneFromAccessCode;
+module.exports.getFullScene = getFullScene;

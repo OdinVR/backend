@@ -14,6 +14,16 @@ api.get('/scene/:scene_id',function(req,res) {
     });
 });
 
+api.get('/scene/:scene_id/full',function(req,res) {
+    const id = req.params.scene_id;
+    Scene.findById(id, function (err, scene) {
+        if(routes.handleErrors(err,scene,'Scene',res)) return;
+        Scene.getFullScene(scene,function(fullScene) {
+            res.json(fullScene);
+        });
+    });
+});
+
 api.get('/newscene',function(req,res) {
     const environment = new Environment({
         skybox_type: "grid",

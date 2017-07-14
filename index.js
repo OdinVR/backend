@@ -9,4 +9,5 @@ require('./routes/routes.js');
 
 require('./db.js');
 
-require('./sockets');
+const sockets = require('./sockets');
+sockets.startSockets();

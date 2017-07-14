@@ -7,8 +7,6 @@ const io = require('socket.io').listen(server);
 
 const Scene = require('./models/scene');
 
-startSockets();
-
 function startSockets() {
     io.on('connection', function(socket) {
         console.log("connected");
@@ -28,3 +26,10 @@ function startSockets() {
         });
     });
 }
+
+function sendScene(scene) {
+
+}
+
+module.exports.startSockets = startSockets;
+module.exports.sendScene = sendScene;

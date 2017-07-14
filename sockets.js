@@ -17,6 +17,13 @@ function startSockets() {
             if(!data.room) return;
             Scene.findSceneFromAccessCode(data.room,function(sceneData){
                 socket.emit('accessResponse',sceneData);
+                if(!sceneData.error) {
+                    if(!socketListeners[sceneData.access]) {
+                        socketListeners[sceneData.access] = [socket];
+                    } else {
+                        socketListeners[sceneData.access].push(socket);
+                    }
+                }
             });
         });
     });

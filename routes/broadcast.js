@@ -13,6 +13,6 @@ api.post('/scene/:scene_id/broadcast',function(req,res) {
     });
 });
 
-api.post('/scene/:scene_id/broadcast',function(req,res) {
+api.delete('/scene/:scene_id/broadcast',function(req,res) {
     
 });

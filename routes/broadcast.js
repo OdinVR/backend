@@ -28,9 +28,13 @@ api.put('/broadcast/:broadcast_id/scene/:scene_id',function(req,res) {
     
 });
 
-//stop a broadcast with code independent of scene
+//stop a broadcast with broadcast id
 api.delete('/broadcast/:broadcast_id',function(req,res) {
     const broadcastId = req.params.broadcast_id;
+    Broadcast.findOneAndRemove({_id: broadcastId},function(err,broadcast,result) {
+        if(routes.handleErrors(err,broadcast,'Broadcast',res)) return;
+        res.json(broadcast);
+    });
 });
 
 //stop a broadcast by scene

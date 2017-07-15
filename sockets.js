@@ -13,17 +13,21 @@ function startSockets() {
         socket.on('room',function(data) {
             console.log("room join request",data.room);
             if(!data.room) return;
-            Scene.findSceneFromAccessCode(data.room,function(sceneData){
-                socket.emit('accessResponse',sceneData);
-                if(!sceneData.error) {
-                    if(!socketListeners[sceneData.accessCode]) {
-                        socketListeners[sceneData.accessCode] = [socket];
-                    } else {
-                        socketListeners[sceneData.accessCode].push(socket);
-                    }
-                }
-            });
+            attemptAccessCodeJoin(socket);
         });
+    });
+}
+
+function attemptAccessCodeJoin(socket) {
+    Scene.findSceneFromAccessCode(data.room,function(sceneData){
+        socket.emit('accessResponse');
+        if(!sceneData.error) {
+            if(!socketListeners[sceneData.accessCode]) {
+                socketListeners[sceneData.accessCode] = [socket];
+            } else {
+                socketListeners[sceneData.accessCode].push(socket);
+            }
+        }
     });
 }
 

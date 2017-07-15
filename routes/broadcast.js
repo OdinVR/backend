@@ -17,6 +17,7 @@ api.post('/scene/:scene_id/broadcast',function(req,res) {
                 res.json({error: err1});
                 return
             }
+            //TODO: send broadcast over socket.io
             res.json(broadcast);
         });
     });

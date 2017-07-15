@@ -14,13 +14,13 @@ api.post('/scene/:scene_id/broadcast',function(req,res) {
     });
 });
 
-//set scene being broadcasted on access code
-api.put('/broadcast/:access_code/scene/:scene_id',function(req,res) {
-    const accessCode = req.params.access_code;
+//set scene being broadcasted a specific broadcast
+api.put('/broadcast/:broadcast_id/scene/:scene_id',function(req,res) {
+    const broadcastId = req.params.broadcast_id;
     const id = req.params.scene_id;
     Scene.findById(id, function (err, scene) {
         if(routes.handleErrors(err,scene,'Scene',res)) return;
-        Broadcast.findOneAndUpdate({accessCode: accessCode},{scene: id},{new: true},function(err1,broadcast) {
+        Broadcast.findOneAndUpdate({_id: broadcastId},{scene: id},{new: true},function(err1,broadcast) {
             if(routes.handleErrors(err1,broadcast,'Broadcast',res)) return;
             res.json(broadcast);
         });
@@ -29,8 +29,8 @@ api.put('/broadcast/:access_code/scene/:scene_id',function(req,res) {
 });
 
 //stop a broadcast with code independent of scene
-api.delete('/broadcast/:access_code',function(req,res) {
-    
+api.delete('/broadcast/:broadcast_id',function(req,res) {
+    const broadcastId = req.params.broadcast_id;
 });
 
 //stop a broadcast by scene

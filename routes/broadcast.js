@@ -9,8 +9,16 @@ api.post('/scene/:scene_id/broadcast',function(req,res) {
     const id = req.params.scene_id;
     Scene.findById(id, function (err, scene) {
         if(routes.handleErrors(err,scene,'Scene',res)) return;
-        sockets.sendScene(scene);
-        res.json(scene);
+        Broadcast.create({
+            scene: id,
+            accessCode: scene.accessCode,
+        },function(err1,broadcast) {
+            if(err1) {
+                res.json({error: err1});
+                return
+            }
+            res.json(broadcast);
+        });
     });
 });
 

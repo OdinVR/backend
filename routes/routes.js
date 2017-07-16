@@ -19,6 +19,7 @@ module.exports.api = api;
 require('./scene');
 require('./environment');
 require('./model');
+require('./presentation');
 
 app.get('/', (req, res) => {
     res.send('OdinVR');

@@ -18,3 +18,11 @@ api.post('/presentation',function(req,res) {
         res.json(presentation);
     })
 });
+
+api.delete('/presentation/:presentation_id',function(req,res) {
+    const id = req.params.presentation_id;
+    Presentation.findOneAndRemove({_id: id},function(err,presentation,result) {
+        if(routes.handleErrors(err,presentation,'Presentation',res)) return;
+        res.json(presentation);
+    });
+});

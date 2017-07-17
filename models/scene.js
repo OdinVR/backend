@@ -47,6 +47,45 @@ function getFullScene(scene,callback) {
 	});
 }
 
+function deleteSceneById(id,callback) {
+	Scene.findOneAndRemove({_id: id},function(err,scene,result) {
+        if(err) {
+			callback({error: err});
+			return
+		}
+		if(!scene) {
+			callback({error: 'Scene not found'});
+			return
+		}
+        const envId = scene.environmentId;
+        Environment.findOneAndRemove({_id: envId},function(err1,env) {
+            Environment.removeSkysphere(env,function(removeData) {
+                console.log("remove skysphere ",removeData);
+            });
+            if(err1) {
+                console.log("Error deleting environment",err1);
+                return
+            }
+            console.log("deleted env",env);
+        });
+        callback(scene);
+        Model.find({scene: id},function(err1,models) {
+            if(err1) {
+                callback({error: err1})
+                return
+            }
+            console.log("models",models);
+            models.forEach(function(model) {
+                Model.deleteModel(model.id,function(json) {
+                    console.log("DELETE MODEL RESULT",json)
+                });
+            });
+            console.log("models",models);
+        });
+    });
+}
+
 module.exports = Scene;
 module.exports.findSceneFromAccessCode = findSceneFromAccessCode;
 module.exports.getFullScene = getFullScene;
+module.exports.deleteSceneById = deleteSceneById;

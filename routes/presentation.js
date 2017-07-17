@@ -26,3 +26,19 @@ api.delete('/presentation/:presentation_id',function(req,res) {
         res.json(presentation);
     });
 });
+
+api.delete('/presentation/:presentation_id/full',function(req,res) {
+    const id = req.params.presentation_id;
+    Presentation.findOneAndRemove({_id: id},function(err,presentation,result) {
+        if(routes.handleErrors(err,presentation,'Presentation',res)) return;
+        Scene.find({presentationId: id},function(err,scenes) {
+            if(err) {
+                console.log("presentation full delete error",err);
+                return
+            }
+            scenes.forEach(function(scene) {
+                
+            });
+        })
+    });
+});

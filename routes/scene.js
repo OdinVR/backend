@@ -55,33 +55,7 @@ api.put('/scene/:scene_id',function(req,res) {
 
 api.delete('/scene/:scene_id',function(req,res) {
     const id = req.params.scene_id;
-    Scene.findOneAndRemove({_id: id},function(err,scene,result) {
-        if(routes.handleErrors(err,scene,'Scene',res)) return;
-        const envId = scene.environmentId;
-        Environment.findOneAndRemove({_id: envId},function(err1,env) {
-            Environment.removeSkysphere(env,function(removeData) {
-                console.log("remove skysphere ",removeData);
-            });
-            if(err1) {
-                console.log("Error deleting environment",err1);
-                return
-            }
-            console.log("deleted env",env);
-        });
-        res.json(scene);
-        Model.find({scene: id},function(err1,models) {
-            if(err1) {
-                res.json({error: err1})
-                return
-            }
-            console.log("models",models);
-            models.forEach(function(model) {
-                Model.deleteModel(model.id,function(json) {
-                    console.log("DELETE MODEL RESULT",json)
-                });
-            })
-            console.log("models",models);
-            // TODO: Delete all of the models from a scene 
-        });
-    })
+    Scene.deleteSceneById(id,function(data) {
+        res.json(data);
+    });
 });

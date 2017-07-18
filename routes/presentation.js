@@ -19,6 +19,14 @@ api.post('/presentation',function(req,res) {
     })
 });
 
+api.put('/presentation/:presentation_id',function(req,res) {
+    const id = req.params.presentation_id;
+    Presentation.findOneAndUpdate({_id: id},req.body,function(err,presentation) {
+        if(routes.handleErrors(err,presentation,'Presentation',res)) return;
+        res.json(presentation);
+    })
+});
+
 api.delete('/presentation/:presentation_id',function(req,res) {
     const id = req.params.presentation_id;
     Presentation.findOneAndRemove({_id: id},function(err,presentation,result) {
@@ -37,7 +45,7 @@ api.delete('/presentation/:presentation_id/full',function(req,res) {
                 return
             }
             scenes.forEach(function(scene) {
-                
+                Scene.deleteSceneById(scene.id);
             });
         })
     });

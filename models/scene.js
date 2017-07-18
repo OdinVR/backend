@@ -6,7 +6,7 @@ const SceneSchema = new mongoose.Schema({
 	name: String,
 	models: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model'}],
 	environmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Environment'},
-	accessCode: String,
+	presentationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Presentation'},
 });
 
 const Scene = mongoose.model('Scene', SceneSchema);
